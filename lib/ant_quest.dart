@@ -11,7 +11,8 @@ import 'package:flame/events.dart';
 import 'package:flame/game.dart';
 import 'package:flutter/foundation.dart';
 
-class AntQuest extends FlameGame with HasKeyboardHandlerComponents {
+class AntQuest extends FlameGame
+    with HasCollisionDetection, HasKeyboardHandlerComponents {
   late AntPlayer _ant;
   double objectSpeed = 0.0;
   late double lastBlockXPosition = 0.0;
@@ -62,7 +63,7 @@ class AntQuest extends FlameGame with HasKeyboardHandlerComponents {
     }
 
     _ant = AntPlayer(
-      position: Vector2(128, canvasSize.y - 70),
+      position: Vector2(128, canvasSize.y - 182),
     );
     world.add(_ant);
   }
