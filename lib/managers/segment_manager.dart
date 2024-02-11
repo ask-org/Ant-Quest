@@ -4,29 +4,10 @@ import 'package:flame/components.dart';
 import '../objects/ground_block.dart';
 import '../objects/platform_block.dart';
 
-class Block extends SpriteComponent with HasGameReference {
+class Block {
   final Vector2 gridPosition;
   final Type blockType;
   Block(this.gridPosition, this.blockType);
-}
-
-void loadGameSegments(int segmentIndex, double xPositionOffset) {
-  for (final block in segments[segmentIndex]) {
-    switch (block.blockType) {
-      case GroundBlock:
-        break;
-      case PlatformBlock:
-        (PlatformBlock(
-          gridPosition: block.gridPosition,
-          xOffset: xPositionOffset,
-        ));
-        break;
-      case Food:
-        break;
-      case HostileAnimal:
-        break;
-    }
-  }
 }
 
 final segments = [
