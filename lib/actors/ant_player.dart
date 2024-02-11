@@ -91,8 +91,14 @@ class AntPlayer extends SpriteAnimationComponent
 
     super.onCollision(intersectionPoints, other);
 
+    if (other is Food) {
+      other.removeFromParent();
+      game.starsCollected++;
+    }
+
     void hit() {
       if (!hitByEnemy) {
+        game.health--;
         hitByEnemy = true;
       }
       add(
@@ -100,7 +106,7 @@ class AntPlayer extends SpriteAnimationComponent
           EffectController(
             alternate: true,
             duration: 0.1,
-            repeatCount: 6,
+            repeatCount: 5,
           ),
         )..onComplete = () {
             hitByEnemy = false;

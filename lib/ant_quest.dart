@@ -6,6 +6,7 @@ import 'package:ant_quest/managers/segment_manager.dart';
 import 'package:ant_quest/objects/food.dart';
 import 'package:ant_quest/objects/ground_block.dart';
 import 'package:ant_quest/objects/platform_block.dart';
+import 'package:ant_quest/overlays/hud.dart';
 import 'package:flame/components.dart';
 import 'package:flame/events.dart';
 import 'package:flame/game.dart';
@@ -17,6 +18,9 @@ class AntQuest extends FlameGame
   double objectSpeed = 0.0;
   late double lastBlockXPosition = 0.0;
   late UniqueKey lastBlockKey;
+  int starsCollected = 0;
+  int health = 3;
+
   void loadGameSegments(int segmentIndex, double xPositionOffset) {
     for (final block in segments[segmentIndex]) {
       switch (block.blockType) {
@@ -54,7 +58,24 @@ class AntQuest extends FlameGame
     }
   }
 
-  void initializeGame() {
+  @override
+  @override
+  Future<void> onLoad() async {
+    await images.loadAll([
+      'block.png',
+      'ember.png',
+      'ground.png',
+      'heart_half.png',
+      'heart.png',
+      'star.png',
+      'water_enemy.png',
+    ]);
+
+    camera.viewfinder.anchor = Anchor.topLeft;
+    initializeGame(true);
+  }
+
+  void initializeGame(bool loadHud) {
     final segmentsToLoad = (size.x / 640).ceil();
     segmentsToLoad.clamp(0, segments.length);
 
@@ -63,23 +84,18 @@ class AntQuest extends FlameGame
     }
 
     _ant = AntPlayer(
-      position: Vector2(128, canvasSize.y - 182),
+      position: Vector2(128, canvasSize.y - 128),
     );
-    world.add(_ant);
+    add(_ant);
+    if (loadHud) {
+      add(Hud());
+    }
   }
 
-  @override
-  Future<void> onLoad() async {
-    await images.loadAll([
-      'block.png',
-      'ember.png',
-      'ground.png',
-      'star.png',
-      'water_enemy.png'
-    ]);
-
-    camera.viewfinder.anchor = Anchor.topLeft;
-    initializeGame();
+  void reset() {
+    starsCollected = 0;
+    health = 3;
+    initializeGame(false);
   }
 
   @override
