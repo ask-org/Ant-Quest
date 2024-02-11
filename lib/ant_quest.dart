@@ -63,7 +63,7 @@ class AntQuest extends FlameGame
     }
 
     _ant = AntPlayer(
-      position: Vector2(128, canvasSize.y - 182),
+      position: Vector2(30, canvasSize.y - 70),
     );
     world.add(_ant);
   }
